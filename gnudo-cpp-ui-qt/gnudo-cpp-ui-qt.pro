@@ -14,10 +14,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    taskinfodialog.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    taskinfodialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    taskinfodialog.ui
 
 unix|win32: LIBS += -lgnudo-cpp-dbdriver-sqlite

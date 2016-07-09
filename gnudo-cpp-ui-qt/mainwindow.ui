@@ -27,16 +27,16 @@
        <enum>QAbstractItemView::SelectRows</enum>
       </property>
       <attribute name="horizontalHeaderVisible">
-       <bool>true</bool>
+       <bool>false</bool>
       </attribute>
       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
        <bool>false</bool>
       </attribute>
       <attribute name="horizontalHeaderStretchLastSection">
-       <bool>false</bool>
+       <bool>true</bool>
       </attribute>
       <attribute name="verticalHeaderVisible">
-       <bool>true</bool>
+       <bool>false</bool>
       </attribute>
       <column>
        <property name="text">
@@ -70,11 +70,15 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionAdd_task"/>
+    <addaction name="actionRemove_task"/>
+    <addaction name="actionShow_completed"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionOpen"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -88,6 +92,26 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionAdd_task">
+   <property name="text">
+    <string>Add task</string>
+   </property>
+  </action>
+  <action name="actionRemove_task">
+   <property name="text">
+    <string>Remove task</string>
+   </property>
+  </action>
+  <action name="actionShow_completed">
+   <property name="text">
+    <string>Show completed</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
