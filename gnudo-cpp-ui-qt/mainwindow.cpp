@@ -154,9 +154,6 @@ MainWindow::refreshTableContent()
 
         ui->tableWidget->setRowCount(++tableRows);
 
-        string otitle = ;
-        const char * title = otitle.c_str();
-        QString qtitle = QString(title);
         ui->tableWidget->setItem(tableRows - 1, 0, new QTableWidgetItem(QString(task->getTitle().c_str())));
         ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QDateTime::fromTime_t(task->getCreationTime()).toString()));
         ui->tableWidget->setItem(tableRows - 1, 2, new QTableWidgetItem(QDateTime::fromTime_t(task->getModificationTime()).toString()));
