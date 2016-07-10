@@ -10,12 +10,19 @@
 # include <sqlite3.h>
 # include <QFileDialog>
 # include <QMessageBox>
+# include <QDateTime>
 
 using namespace gnudo::sqlite;
 
 using std::vector;
 using std::int64_t;
 using std::to_string;
+
+// TODO Migliorare larghezza automatica colonne
+// TODO Permettere ordinamento colonne
+// TODO Toolbar
+// TODO Database aperti recentemente
+// TODO Ricordare ultima directory usata
 
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
@@ -27,8 +34,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(showOpenDbDialog()));
     connect(ui->actionAdd_task, SIGNAL(triggered()), this, SLOT(showAddTaskDialog()));
     connect(ui->actionShow_completed, SIGNAL(triggered()), this, SLOT(toggleShowCompletedTask()));
-
-    // FIXME Questa voce deve essere attiva quando c'è una selezione sulla tabella
     connect(ui->actionRemove_task, SIGNAL(triggered()), this, SLOT(removeTask()));
 }
 
@@ -64,12 +69,19 @@ MainWindow::showOpenDbDialog()
 // requireOpenDb() restituisca true
 
 
-// TODO Mostrare spunta sulla voce del menu
+
 void
 MainWindow::toggleShowCompletedTask()
 {
     if (not requireOpenDb()) return;
     showCompletedTask = !showCompletedTask;
+
+    // TODO Usare icona
+    if(showCompletedTask)
+        ui->actionShow_completed->setText("Show completed: v");
+    else
+        ui->actionShow_completed->setText("Show completed: x");
+
     refreshTableContent();
 }
 
@@ -99,6 +111,17 @@ MainWindow::removeTask()
 
     QModelIndexList indexes = ui->tableWidget->selectionModel()->selection().indexes();
 
+    // TODO Questa è una cosa provvisoria, sarebbe meglio disabilitare la voce del menu
+    // se non ci sono righe selezionate
+    if (indexes.count() == 0)
+    {
+        QMessageBox msgBox;
+        msgBox.setText("Nessuna riga selezionata");
+        msgBox.exec();
+        return;
+    }
+
+
     for (int i = 0; i < indexes.count(); ++i)
     {
         QModelIndex index = indexes.at(i);
@@ -112,7 +135,6 @@ MainWindow::removeTask()
 }
 
 
-// FIXME A volte si vedono dei simboli strani nella colonna title
 void
 MainWindow::refreshTableContent()
 {
@@ -132,9 +154,12 @@ MainWindow::refreshTableContent()
 
         ui->tableWidget->setRowCount(++tableRows);
 
+        string otitle = ;
+        const char * title = otitle.c_str();
+        QString qtitle = QString(title);
         ui->tableWidget->setItem(tableRows - 1, 0, new QTableWidgetItem(QString(task->getTitle().c_str())));
-        ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QString(to_string(task->getCreationTime()).c_str())));
-        ui->tableWidget->setItem(tableRows - 1, 2, new QTableWidgetItem(QString(to_string(task->getModificationTime()).c_str())));
+        ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QDateTime::fromTime_t(task->getCreationTime()).toString()));
+        ui->tableWidget->setItem(tableRows - 1, 2, new QTableWidgetItem(QDateTime::fromTime_t(task->getModificationTime()).toString()));
 
         tableIdAssociation.insert(tableIdAssociation.end(), task->getId());
 
@@ -155,17 +180,19 @@ void MainWindow::on_tableWidget_doubleClicked(const QModelIndex &index)
     sqlite3_int64 taskId = tableIdAssociation[index.row()];
     Task *t = db->getTasks()->getTask(taskId);
 
-    TaskInfoDialog *d = new TaskInfoDialog(0, QString(t->getTitle().c_str()), QString(t->getDescription().c_str()),
-                                           t->getCreationTime(), t->getModificationTime(), t->isCompleted());
+    QString title = t->getTitle().c_str(), description = t->getDescription().c_str();
+    time_t creationTime = t->getCreationTime(), modificationTime = t->getModificationTime();
+    bool completed = t->isCompleted();
+
+    TaskInfoDialog *d = new TaskInfoDialog(0, title, description, creationTime, modificationTime, completed);
 
     if(d->exec() == QDialog::Accepted)
     {
-        // FIXME Rallenta la gui, usare un thread
-        t->setTitle(d->title.toStdString());
-        t->setDescription(d->description.toStdString());
+        if(d->title != title) t->setTitle(d->title.toStdString());
+        if(d->description != description) t->setDescription(d->description.toStdString());
         // FIXME manca creation time
         // FIXME manca modification time
-        t->setStatus(d->completed);
+        if(d->completed != completed) t->setStatus(d->completed);
 
         refreshTableContent();
     }

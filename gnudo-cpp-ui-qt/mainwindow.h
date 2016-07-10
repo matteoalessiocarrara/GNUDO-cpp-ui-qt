@@ -14,10 +14,6 @@ namespace Ui {
 class MainWindow;
 }
 
-// TODO Migliorare larghezza automatica colonne
-// TODO Permettere ordinamento colonne
-// TODO Toolbar
-// TODO Database aperti recentemente
 
 class MainWindow : public QMainWindow
 {
