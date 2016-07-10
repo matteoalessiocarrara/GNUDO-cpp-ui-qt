@@ -145,6 +145,7 @@ MainWindow::refreshTableContent()
     unsigned tableRows = 0;
 
     tableIdAssociation.clear();
+    ui->tableWidget->setRowCount(0);
 
     for(unsigned i = 0; i < idList.size(); i++)
     {
