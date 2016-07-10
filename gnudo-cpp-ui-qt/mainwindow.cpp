@@ -11,6 +11,7 @@
 # include <QFileDialog>
 # include <QMessageBox>
 # include <QDateTime>
+# include <QDir>
 
 using namespace gnudo::sqlite;
 
@@ -55,7 +56,7 @@ MainWindow::requireOpenDb()
 void
 MainWindow::showOpenDbDialog()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open File", ".", "*.db");
+    QString fileName = QFileDialog::getOpenFileName(this, "Open File", QDir::homePath(), "*.db");
 
     if (fileName != "")
     {
@@ -95,8 +96,8 @@ MainWindow::showAddTaskDialog()
 
     if(d->exec() == QDialog::Accepted)
     {
-        // FIXME Aggiungere parametri creation time, modification time, completed
-        db->getTasks()->add(d->title.toStdString(), d->description.toStdString());
+        db->getTasks()->add(d->title.toStdString(), d->description.toStdString(),
+                            d->creationTime, d->modificationTime, d->completed);
         refreshTableContent();
     }
 
@@ -187,8 +188,8 @@ void MainWindow::on_tableWidget_doubleClicked(const QModelIndex &index)
     {
         if(d->title != title) t->setTitle(d->title.toStdString());
         if(d->description != description) t->setDescription(d->description.toStdString());
-        // FIXME manca creation time
-        // FIXME manca modification time
+        if(d->creationTime != creationTime) t->setCreationTime(d->creationTime);
+        if(d->modificationTime != modificationTime) t->setModificationTime(d->modificationTime);
         if(d->completed != completed) t->setStatus(d->completed);
 
         refreshTableContent();
