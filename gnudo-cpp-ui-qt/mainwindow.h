@@ -23,7 +23,24 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    enum ColumnCombobox
+    {
+        TITLE = 0,
+        DESCRIPTION = 4,
+        CREATION_TIME = 1,
+        MODIFICATION_TIME = 2,
+        COMPLETED = 3
+    };
+
+    enum RuleCombobox
+    {
+        ASCENDING = 0,
+        DESCENDING = 1
+    };
+
 private slots:
+    void onOrderByColumnChanged(int selection);
+    void onOrderRuleChanged(int rule);
     void showOpenDbDialog();
     void showAddTaskDialog();
     void removeTask();
@@ -38,6 +55,8 @@ private:
     bool showCompletedTask;
     vector<sqlite3_int64> tableIdAssociation;
 
+    TasksManager::Order orderByColumn;
+    bool orderAscending;
 
     // Restituisce true se c'è un db aperto
     bool requireOpenDb();

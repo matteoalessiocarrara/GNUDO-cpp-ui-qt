@@ -12,6 +12,7 @@
 # include <QMessageBox>
 # include <QDateTime>
 # include <QDir>
+# include <stdexcept>
 
 using namespace gnudo::sqlite;
 
@@ -34,10 +35,61 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     db = NULL;
     showCompletedTask = false;
 
+    ui->comboBox->insertItem(ColumnCombobox::TITLE, "Titolo");
+    ui->comboBox->insertItem(ColumnCombobox::DESCRIPTION, "Descrizione");
+    ui->comboBox->insertItem(ColumnCombobox::CREATION_TIME, "Data di creazione");
+    ui->comboBox->insertItem(ColumnCombobox::MODIFICATION_TIME, "Data di modifica");
+    ui->comboBox->insertItem(ColumnCombobox::COMPLETED, "Completato");
+
+    ui->comboBox_2->insertItem(RuleCombobox::ASCENDING, "Crescente");
+    ui->comboBox_2->insertItem(RuleCombobox::DESCENDING, "Decrescente");
+
+    connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onOrderByColumnChanged(int)));
+    connect(ui->comboBox_2, SIGNAL(currentIndexChanged(int)), this, SLOT(onOrderRuleChanged(int)));
+
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(showOpenDbDialog()));
     connect(ui->actionAdd_task, SIGNAL(triggered()), this, SLOT(showAddTaskDialog()));
     connect(ui->actionShow_completed, SIGNAL(triggered()), this, SLOT(toggleShowCompletedTask()));
     connect(ui->actionRemove_task, SIGNAL(triggered()), this, SLOT(removeTask()));
+
+    ui->comboBox->setCurrentIndex(ColumnCombobox::CREATION_TIME);
+    ui->comboBox_2->setCurrentIndex(RuleCombobox::DESCENDING);
+}
+
+
+void
+MainWindow::onOrderByColumnChanged(int selection)
+{
+    switch(selection)
+    {
+        case ColumnCombobox::TITLE:
+            orderByColumn = TasksManager::Order::TITLE;
+            break;
+        case ColumnCombobox::DESCRIPTION:
+            orderByColumn = TasksManager::Order::DESCRIPTION;
+            break;
+        case ColumnCombobox::CREATION_TIME:
+            orderByColumn = TasksManager::Order::CREATION_TIME;
+            break;
+        case ColumnCombobox::MODIFICATION_TIME:
+            orderByColumn = TasksManager::Order::MODIFICATION_TIME;
+            break;
+        case ColumnCombobox::COMPLETED:
+            orderByColumn = TasksManager::Order::COMPLETED;
+            break;
+        default:
+            throw std::runtime_error("Selezionato ordinamento per colonna non prevista");
+    }
+
+    if (db != NULL) refreshTableContent();
+}
+
+
+void
+MainWindow::onOrderRuleChanged(int rule)
+{
+    orderAscending = (rule == RuleCombobox::ASCENDING? true : false);
+    if (db != NULL) refreshTableContent();
 }
 
 
@@ -143,7 +195,7 @@ MainWindow::refreshTableContent()
 {
     if (not requireOpenDb()) return;
 
-    vector<sqlite3_int64> idList = db->getTasks()->getIdList();
+    vector<sqlite3_int64> idList = db->getTasks()->getIdList(orderByColumn, orderAscending);
     unsigned tableRows = 0;
 
     tableIdAssociation.clear();
