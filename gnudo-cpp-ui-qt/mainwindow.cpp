@@ -24,6 +24,8 @@ using std::to_string;
 // TODO Toolbar
 // TODO Database aperti recentemente
 // TODO Ricordare ultima directory usata
+// FIXME Quando compilato in modalità "debug" funziona, ma quando compilato normalmente
+// ogni tanto il testo nella colonna "title" è danneggiato
 
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
