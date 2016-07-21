@@ -23,4 +23,4 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     taskinfodialog.ui
 
-unix|win32: LIBS += -lgnudo-cpp-dbdriver-sqlite
+unix|win32: LIBS += -L/usr/local/lib -lgnudo-cpp-dbdriver-sqlite

@@ -46,6 +46,9 @@
       <attribute name="horizontalHeaderVisible">
        <bool>true</bool>
       </attribute>
+      <attribute name="horizontalHeaderCascadingSectionResizes">
+       <bool>true</bool>
+      </attribute>
       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
        <bool>false</bool>
       </attribute>
@@ -80,7 +83,7 @@
      <x>0</x>
      <y>0</y>
      <width>639</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuEdit">
@@ -95,6 +98,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
    </widget>
    <addaction name="menuFile"/>
@@ -136,6 +140,11 @@
   <action name="actionShow_completed">
    <property name="text">
     <string>Show completed: x</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>

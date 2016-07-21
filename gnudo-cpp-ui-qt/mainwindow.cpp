@@ -20,6 +20,8 @@ using std::vector;
 using std::int64_t;
 using std::to_string;
 
+
+// TODO Toolbar
 // TODO Migliorare larghezza automatica colonne
 // TODO Permettere ordinamento colonne
 // TODO Toolbar
@@ -47,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onOrderByColumnChanged(int)));
     connect(ui->comboBox_2, SIGNAL(currentIndexChanged(int)), this, SLOT(onOrderRuleChanged(int)));
 
+	connect(ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(showNewDbDialog()));
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(showOpenDbDialog()));
     connect(ui->actionAdd_task, SIGNAL(triggered()), this, SLOT(showAddTaskDialog()));
     connect(ui->actionShow_completed, SIGNAL(triggered()), this, SLOT(toggleShowCompletedTask()));
@@ -56,6 +59,18 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->comboBox_2->setCurrentIndex(RuleCombobox::DESCENDING);
 }
 
+
+void
+MainWindow::showNewDbDialog()
+{
+	QString fileName = QFileDialog::getSaveFileName(this, "New database", QDir::homePath());
+
+	if (fileName != "")
+	{
+		db = new Db(fileName.toStdString());
+		refreshTableContent();
+	}
+}
 
 void
 MainWindow::onOrderByColumnChanged(int selection)
