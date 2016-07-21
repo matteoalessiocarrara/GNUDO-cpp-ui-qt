@@ -12,6 +12,7 @@
 # include <QMessageBox>
 # include <QDateTime>
 # include <QDir>
+# include <QHeaderView>>
 # include <stdexcept>
 
 using namespace gnudo::sqlite;
@@ -22,7 +23,7 @@ using std::to_string;
 
 
 // TODO Toolbar
-// TODO Migliorare larghezza automatica colonne
+// TODO Permettere ridimensionamento colonne?
 // TODO Database aperti recentemente
 // TODO Ricordare ultima directory usata
 
@@ -53,6 +54,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     ui->comboBox->setCurrentIndex(ColumnCombobox::CREATION_TIME);
     ui->comboBox_2->setCurrentIndex(RuleCombobox::DESCENDING);
+
+	// TODO Migliorare
+	ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+	ui->tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+	ui->tableWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
 }
 
 
