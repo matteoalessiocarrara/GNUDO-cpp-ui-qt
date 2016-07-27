@@ -20,4 +20,5 @@
 
 cd build*
 #qmake ../gnudo-cpp-ui-qt
-make && sudo cp gnudo-cpp-ui-qt /usr/local/bin
+make
+sudo cp gnudo-cpp-ui-qt /usr/local/bin
