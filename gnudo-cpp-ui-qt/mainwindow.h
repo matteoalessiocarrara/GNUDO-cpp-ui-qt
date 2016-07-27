@@ -26,11 +26,12 @@ class MainWindow : public QMainWindow
 
 		enum ColumnCombobox
 		{
-			TITLE = 0,
-			DESCRIPTION = 4,
-			CREATION_TIME = 1,
-			MODIFICATION_TIME = 2,
-			COMPLETED = 3
+			PRIORITY,
+			MODIFICATION_TIME,
+			CREATION_TIME,
+			TITLE,
+			COMPLETED,
+			DESCRIPTION
 		};
 
 		enum RuleCombobox
@@ -45,10 +46,10 @@ class MainWindow : public QMainWindow
 		void showNewDbDialog();
 		void showOpenDbDialog();
 		void showAddTaskDialog();
+		void showPriorityLevelsDialog();
 		void removeTask();
 		void refreshTableContent();
 		void toggleShowCompletedTask();
-
 		void on_tableWidget_doubleClicked(const QModelIndex &index);
 
 	private:
@@ -62,6 +63,7 @@ class MainWindow : public QMainWindow
 
 		// Restituisce true se c'è un db aperto
 		bool requireOpenDb();
+
 };
 
 #endif // MAINWINDOW_H

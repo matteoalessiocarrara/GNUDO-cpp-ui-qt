@@ -15,12 +15,23 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    taskinfodialog.cpp
+    taskinfodialog.cpp \
+    prioritylevelsdialog.cpp \
+    editprioritydialog.cpp
 
 HEADERS  += mainwindow.h \
-    taskinfodialog.h
+    taskinfodialog.h \
+    prioritylevelsdialog.hpp \
+    editprioritydialog.hpp
 
 FORMS    += mainwindow.ui \
-    taskinfodialog.ui
+    taskinfodialog.ui \
+    prioritylevelsdialog.ui \
+    editprioritydialog.ui
 
+
+unix|win32: LIBS += -L/usr/local/lib -lsqlite3pp
 unix|win32: LIBS += -L/usr/local/lib -lgnudo-cpp-dbdriver-sqlite
+
+
+

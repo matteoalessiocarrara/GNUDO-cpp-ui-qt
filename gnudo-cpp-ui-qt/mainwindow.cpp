@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "taskinfodialog.h"
-
+# include "prioritylevelsdialog.hpp"
 # include <vector>
 # include <cstdint>
 # include <string>
@@ -12,7 +12,7 @@
 # include <QMessageBox>
 # include <QDateTime>
 # include <QDir>
-# include <QHeaderView>>
+# include <QHeaderView>
 # include <stdexcept>
 
 using namespace gnudo::sqlite;
@@ -22,6 +22,8 @@ using std::int64_t;
 using std::to_string;
 
 
+// TODO Colore livelli priorità
+// TODO Eliminare sqlite3_int64, essendo indipendente la gui deve usare int64_t
 // TODO Toolbar
 // TODO Permettere ridimensionamento colonne?
 // TODO Database aperti recentemente
@@ -34,10 +36,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     db = NULL;
     showCompletedTask = false;
 
+
     ui->comboBox->insertItem(ColumnCombobox::TITLE, "Titolo");
     ui->comboBox->insertItem(ColumnCombobox::DESCRIPTION, "Descrizione");
     ui->comboBox->insertItem(ColumnCombobox::CREATION_TIME, "Data di creazione");
     ui->comboBox->insertItem(ColumnCombobox::MODIFICATION_TIME, "Data di modifica");
+	ui->comboBox->insertItem(ColumnCombobox::PRIORITY, "Priorità");
     ui->comboBox->insertItem(ColumnCombobox::COMPLETED, "Completato");
 
     ui->comboBox_2->insertItem(RuleCombobox::ASCENDING, "Crescente");
@@ -50,15 +54,17 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(showOpenDbDialog()));
     connect(ui->actionAdd_task, SIGNAL(triggered()), this, SLOT(showAddTaskDialog()));
     connect(ui->actionShow_completed, SIGNAL(triggered()), this, SLOT(toggleShowCompletedTask()));
-    connect(ui->actionRemove_task, SIGNAL(triggered()), this, SLOT(removeTask()));
+	connect(ui->actionRemove_task, SIGNAL(triggered()), this, SLOT(removeTask()));
+	connect(ui->actionEdit_priority_levels, SIGNAL(triggered(bool)), this, SLOT(showPriorityLevelsDialog()));
 
-    ui->comboBox->setCurrentIndex(ColumnCombobox::CREATION_TIME);
+	ui->comboBox->setCurrentIndex(ColumnCombobox::PRIORITY);
     ui->comboBox_2->setCurrentIndex(RuleCombobox::DESCENDING);
 
 	// TODO Migliorare
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+	ui->tableWidget->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
 }
 
 
@@ -73,6 +79,7 @@ MainWindow::showNewDbDialog()
 		refreshTableContent();
 	}
 }
+
 
 void
 MainWindow::onOrderByColumnChanged(int selection)
@@ -91,6 +98,9 @@ MainWindow::onOrderByColumnChanged(int selection)
         case ColumnCombobox::MODIFICATION_TIME:
             orderByColumn = TasksManager::Order::MODIFICATION_TIME;
             break;
+		case ColumnCombobox::PRIORITY:
+			orderByColumn = TasksManager::Order::PRIORITY;
+			break;
         case ColumnCombobox::COMPLETED:
             orderByColumn = TasksManager::Order::COMPLETED;
             break;
@@ -163,14 +173,27 @@ MainWindow::showAddTaskDialog()
 {
     if (not requireOpenDb()) return;
 
-    TaskInfoDialog *d = new TaskInfoDialog;
+	if (db->getPriorityLevels()->getIdList().size() == 0)
+	{
+		QMessageBox msgBox;
+		msgBox.setText("Prima devi creare almeno un livello di priorità");
+		msgBox.exec();
+
+		PriorityLevelsDialog *pd = new PriorityLevelsDialog(0, db);
+		pd->exec();
+
+		if(db->getPriorityLevels()->getIdList().size() < 1)
+		{
+			msgBox.setText("Ma... non hai aggiunto nulla :(");
+			msgBox.exec();
+			return;
+		}
+	}
+
+	TaskInfoDialog *d = new TaskInfoDialog(0, db);
 
     if(d->exec() == QDialog::Accepted)
-    {
-        db->getTasks()->add(d->title.toStdString(), d->description.toStdString(),
-                            d->creationTime, d->modificationTime, d->completed);
         refreshTableContent();
-    }
 
     delete d;
 }
@@ -199,8 +222,7 @@ MainWindow::removeTask()
         QModelIndex index = indexes.at(i);
 
         sqlite3_int64 taskId = tableIdAssociation[index.row()];
-        Task *t = db->getTasks()->getTask(taskId);
-        db->getTasks()->remove(t); // FIXME usare direttamente id
+		db->getTasks()->remove(taskId);
     }
 
     refreshTableContent();
@@ -212,7 +234,7 @@ MainWindow::refreshTableContent()
 {
     if (not requireOpenDb()) return;
 
-    vector<sqlite3_int64> idList = db->getTasks()->getIdList(orderByColumn, orderAscending);
+	vector<int64_t> idList = db->getTasks()->getIdList(orderByColumn, orderAscending);
     unsigned tableRows = 0;
 
     tableIdAssociation.clear();
@@ -227,11 +249,12 @@ MainWindow::refreshTableContent()
 
         ui->tableWidget->setRowCount(++tableRows);
 
-        ui->tableWidget->setItem(tableRows - 1, 0, new QTableWidgetItem(QString(task->getTitle().c_str())));
-        ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QDateTime::fromTime_t(task->getCreationTime()).toString()));
-        ui->tableWidget->setItem(tableRows - 1, 2, new QTableWidgetItem(QDateTime::fromTime_t(task->getModificationTime()).toString()));
+		ui->tableWidget->setItem(tableRows - 1, 0, new QTableWidgetItem(QString( (task->getPriorityLevel()->getName() + " (" + to_string(task->getPriorityLevel()->getLevel()) + ")" ).c_str() )));
+		ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QString(task->getTitle().c_str())));
+		ui->tableWidget->setItem(tableRows - 1, 2, new QTableWidgetItem(QDateTime::fromTime_t(task->getCreationTime()).toString()));
+		ui->tableWidget->setItem(tableRows - 1, 3, new QTableWidgetItem(QDateTime::fromTime_t(task->getModificationTime()).toString()));
 
-        tableIdAssociation.insert(tableIdAssociation.end(), task->getId());
+		tableIdAssociation.insert(tableIdAssociation.end(), task->sqlite3pp::objects::Row::getId());
 
         delete task;
     }
@@ -241,31 +264,30 @@ MainWindow::refreshTableContent()
 MainWindow::~MainWindow()
 {
     delete ui;
+	// TODO Controllare se c'è altro da eliminare
 }
+
 
 void MainWindow::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
     if (not requireOpenDb()) return;
 
     sqlite3_int64 taskId = tableIdAssociation[index.row()];
-    Task *t = db->getTasks()->getTask(taskId);
-
-    QString title = t->getTitle().c_str(), description = t->getDescription().c_str();
-    time_t creationTime = t->getCreationTime(), modificationTime = t->getModificationTime();
-    bool completed = t->isCompleted();
-
-    TaskInfoDialog *d = new TaskInfoDialog(0, title, description, creationTime, modificationTime, completed);
+	TaskInfoDialog *d = new TaskInfoDialog(0, db, taskId);
 
     if(d->exec() == QDialog::Accepted)
-    {
-        if(d->title != title) t->setTitle(d->title.toStdString());
-        if(d->description != description) t->setDescription(d->description.toStdString());
-        if(d->creationTime != creationTime) t->setCreationTime(d->creationTime);
-        if(d->modificationTime != modificationTime) t->setModificationTime(d->modificationTime);
-        if(d->completed != completed) t->setStatus(d->completed);
-
         refreshTableContent();
-    }
 
     delete d;
+}
+
+void
+MainWindow::showPriorityLevelsDialog()
+{
+	if (not requireOpenDb()) return;
+
+	PriorityLevelsDialog *pd = new PriorityLevelsDialog(0, db);
+	pd->exec();
+
+	refreshTableContent();
 }

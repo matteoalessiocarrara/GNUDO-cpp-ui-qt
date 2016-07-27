@@ -66,6 +66,11 @@
       </attribute>
       <column>
        <property name="text">
+        <string>Priority</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Title</string>
        </property>
       </column>
@@ -99,6 +104,7 @@
     <addaction name="actionAdd_task"/>
     <addaction name="actionRemove_task"/>
     <addaction name="actionShow_completed"/>
+    <addaction name="actionEdit_priority_levels"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
@@ -151,6 +157,11 @@
   <action name="actionNew">
    <property name="text">
     <string>New</string>
+   </property>
+  </action>
+  <action name="actionEdit_priority_levels">
+   <property name="text">
+    <string>Edit priority levels</string>
    </property>
   </action>
  </widget>

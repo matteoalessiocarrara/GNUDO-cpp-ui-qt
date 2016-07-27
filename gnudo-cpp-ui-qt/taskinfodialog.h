@@ -1,8 +1,13 @@
 #ifndef TASKINFODIALOG_H
 #define TASKINFODIALOG_H
 
-#include <QDialog>
-#include <ctime>
+# include <QDialog>
+# include <QDateTime>
+# include <ctime>
+
+# include <gnudo-cpp-dbdriver-sqlite/gnudo.hpp>
+
+using namespace gnudo::sqlite;
 
 namespace Ui
 {
@@ -19,21 +24,30 @@ class TaskInfoDialog : public QDialog
 
 
 	public:
-		explicit TaskInfoDialog(QWidget *parent = 0, QString title="untitled", QString description="",
-								time_t creationTime=time(NULL), time_t modificationTime=time(NULL),
-								bool completed=false);
+		// WARNING Ci deve essere almeno un livello di priorità prima di chiamare questo costruttore
+		explicit TaskInfoDialog(QWidget *parent, Db *db);
+		explicit TaskInfoDialog(QWidget *parent, Db *db, int64_t taskId);
 		~TaskInfoDialog();
-
-		QString title, description;
-		time_t creationTime, modificationTime;
-		bool completed;
-
 
 	private slots:
 		void on_buttonBox_accepted();
+		void on_buttonBox_rejected();
+
+		void on_toolButton_clicked();
 
 	private:
 		Ui::TaskInfoDialog *ui;
+		Db *__db;
+		int64_t __taskId;
+		bool isNewTask;
+
+		string title, description;
+		QDateTime qcreationTime, qmodificationTime;
+		bool completed;
+		int64_t priorityId;
+
+		void commonInit();
+		void updatePriorityLevelsList();
 };
 
 #endif // TASKINFODIALOG_H
