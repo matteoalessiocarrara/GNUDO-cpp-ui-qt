@@ -24,9 +24,10 @@ cd /tmp/gnudo
 
 
 # Sqlite3pp
-wget https://github.com/matteoalessiocarrara/sqlite3pp/archive/1aeb21cf7339fbe7313b83e42563c50c38965b40.zip
-unzip 1aeb21cf7339fbe7313b83e42563c50c38965b40
-cd sqlite3pp-1aeb21cf7339fbe7313b83e42563c50c38965b40
+sqlite3pp_version=00708e116d481e463532bc03bddf80a19c812e06
+wget https://github.com/matteoalessiocarrara/sqlite3pp/archive/$sqlite3pp_version.zip
+unzip $sqlite3pp_version.zip
+cd sqlite3pp-$sqlite3pp_version
 mkdir build
 cd build
 cmake ..
@@ -36,9 +37,10 @@ cd ../..
 
 
 # Abstract driver
-wget https://github.com/matteoalessiocarrara/GNUDO-cpp-dbdriver-abstract/archive/alpha1.zip -O abstract.zip
+abstract_version=alpha2
+wget https://github.com/matteoalessiocarrara/GNUDO-cpp-dbdriver-abstract/archive/$abstract_version.zip -O abstract.zip
 unzip abstract.zip
-cd GNUDO-cpp-dbdriver-abstract-alpha1
+cd GNUDO-cpp-dbdriver-abstract-$abstract_version
 mkdir build
 cd build
 cmake ..
@@ -48,9 +50,10 @@ cd ../..
 
 
 # Sqlite driver
-wget https://github.com/matteoalessiocarrara/GNUDO-cpp-dbdriver-sqlite/archive/alpha1.zip -O sqlite.zip
+sqlite_driver_version=alpha2
+wget https://github.com/matteoalessiocarrara/GNUDO-cpp-dbdriver-sqlite/archive/$sqlite_driver_version.zip -O sqlite.zip
 unzip sqlite.zip
-cd GNUDO-cpp-dbdriver-sqlite-alpha1
+cd GNUDO-cpp-dbdriver-sqlite-$sqlite_driver_version
 mkdir build
 cd build
 cmake ..
@@ -60,9 +63,10 @@ cd ../..
 
 
 # Qt gui
-wget https://github.com/matteoalessiocarrara/GNUDO-cpp-ui-qt/archive/alpha1.zip -O qt-gui.zip
+gui_version=alpha2
+wget https://github.com/matteoalessiocarrara/GNUDO-cpp-ui-qt/archive/$gui_version.zip -O qt-gui.zip
 unzip qt-gui.zip
-cd GNUDO-cpp-ui-qt-alpha1
+cd GNUDO-cpp-ui-qt-$gui_version
 mkdir build
 cd build
 qmake ../gnudo-cpp-ui-qt
