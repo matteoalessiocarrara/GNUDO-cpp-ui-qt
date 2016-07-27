@@ -71,5 +71,5 @@ sudo cp gnudo-cpp-ui-qt /usr/local/bin
 
 rm -rf /tmp/gnudo
 
-echo "\n\n\nInstallazione completata! Adesso dovresti poter esseguire gnudo con il comando gnudo-cpp-ui-qt"
+echo "\n\n\nInstallazione completata! Adesso dovresti poter eseguire gnudo con il comando gnudo-cpp-ui-qt"
 
