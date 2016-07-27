@@ -185,6 +185,9 @@ MainWindow::showAddTaskDialog()
 
 		PriorityLevelsDialog *pd = new PriorityLevelsDialog(0, db);
 		pd->exec();
+
+		if(db->getPriorityLevels()->getIdList().size() < 1)
+			return;
 	}
 
 	TaskInfoDialog *d = new TaskInfoDialog(0, db);
