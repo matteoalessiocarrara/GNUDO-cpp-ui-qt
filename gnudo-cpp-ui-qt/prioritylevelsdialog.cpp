@@ -1,6 +1,7 @@
 #include "prioritylevelsdialog.hpp"
 #include "ui_prioritylevelsdialog.h"
 # include "editprioritydialog.hpp"
+# include "deleteprioritydialog.hpp"
 
 # include <QMessageBox>
 # include <string>
@@ -34,7 +35,7 @@ PriorityLevelsDialog::~PriorityLevelsDialog()
 void PriorityLevelsDialog::refreshTableContent()
 {
 
-	vector<int64_t> idList = db->getPriorityLevels()->getIdList();
+	vector<int64_t> idList = db->getPriorityLevels()->getIdList(gnudo::sqlite::PriorityLevelsManager::Order::PRIORITY);
 	unsigned tableRows = 0;
 
 	tableIdAssociation.clear();
@@ -85,7 +86,7 @@ void PriorityLevelsDialog::on_pushButton_3_clicked()
 
 void PriorityLevelsDialog::on_pushButton_2_clicked()
 {
-	QModelIndexList indexes = ui->tableWidget->selectionModel()->selection().indexes();
+	QModelIndexList indexes = ui->tableWidget->selectionModel()->selectedRows();
 
 	if (indexes.count() == 0)
 	{
@@ -101,7 +102,19 @@ void PriorityLevelsDialog::on_pushButton_2_clicked()
 		QModelIndex index = indexes.at(i);
 
 		int64_t prId = tableIdAssociation[index.row()];
-		db->getPriorityLevels()->remove(prId); // FIXME Va usato l altro remove, bisogna modificare i task
+		DeletePriorityDialog d(0, db, prId);
+
+		if ((db->getPriorityLevels()->getIdList().size() == 1) and (db->getTasks()->getIdList().size() != 0))
+		{
+			QMessageBox msgBox;
+			msgBox.setText("Impossibile eliminare l'unico livello di priorità con dei task esistenti");
+			msgBox.exec();
+			return;
+		}
+		else if ((db->getPriorityLevels()->getIdList().size() == 1) and (db->getTasks()->getIdList().size() == 0))
+			db->getPriorityLevels()->remove(prId);
+		else
+			d.exec();
 	}
 
 	refreshTableContent();

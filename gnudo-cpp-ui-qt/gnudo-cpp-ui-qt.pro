@@ -17,20 +17,24 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     taskinfodialog.cpp \
     prioritylevelsdialog.cpp \
-    editprioritydialog.cpp
+    editprioritydialog.cpp \
+    deleteprioritydialog.cpp
 
 HEADERS  += mainwindow.h \
     taskinfodialog.h \
     prioritylevelsdialog.hpp \
-    editprioritydialog.hpp
+    editprioritydialog.hpp \
+    deleteprioritydialog.hpp
 
 FORMS    += mainwindow.ui \
     taskinfodialog.ui \
     prioritylevelsdialog.ui \
-    editprioritydialog.ui
+    editprioritydialog.ui \
+    deleteprioritydialog.ui
 
 
 unix|win32: LIBS += -L/usr/local/lib -lsqlite3pp
+unix|win32: LIBS += -L/usr/local/lib -lgnudo-cpp-dbdriver-abstract
 unix|win32: LIBS += -L/usr/local/lib -lgnudo-cpp-dbdriver-sqlite
 
 

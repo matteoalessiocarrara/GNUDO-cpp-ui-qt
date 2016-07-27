@@ -205,7 +205,7 @@ MainWindow::removeTask()
 {
     if (not requireOpenDb()) return;
 
-    QModelIndexList indexes = ui->tableWidget->selectionModel()->selection().indexes();
+	QModelIndexList indexes = ui->tableWidget->selectionModel()->selectedRows();
 
     // TODO Questa è una cosa provvisoria, sarebbe meglio disabilitare la voce del menu
     // se non ci sono righe selezionate
@@ -254,7 +254,7 @@ MainWindow::refreshTableContent()
 		QTableWidgetItem *priorityCell = new QTableWidgetItem(QString( (task->getPriorityLevel()->getName() + " (" + to_string(task->getPriorityLevel()->getLevel()) + ")" ).c_str() ));
 		QColor bgcolor = QColor(QString(task->getPriorityLevel()->getColor().c_str()));
 		priorityCell->setBackground(QBrush(bgcolor));
-		priorityCell->setTextColor(((bgcolor.rgb() & 0xFFFFFF) > (0xFFFFFF/2))? Qt::black : Qt::white);
+		priorityCell->setTextColor((( ((bgcolor.rgb() & 0xFF0000) >> 16) + ((bgcolor.rgb() & 0x00FF00) >> 8) + ((bgcolor.rgb() & 0x0000FF)) ) > (0x0000FF * 3/2))? Qt::black : Qt::white);
 
 		ui->tableWidget->setItem(tableRows - 1, 0, priorityCell);
 		ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QString(task->getTitle().c_str())));
