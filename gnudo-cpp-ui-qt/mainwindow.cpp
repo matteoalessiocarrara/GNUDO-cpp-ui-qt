@@ -23,6 +23,9 @@ using std::int64_t;
 using std::to_string;
 
 
+// TODO Installazione
+// TODO Cambiare formato data
+// TODO Ridurre a icona nella barra delle notifiche
 // TODO Colore livelli priorità
 // TODO Eliminare sqlite3_int64, essendo indipendente la gui deve usare int64_t
 // TODO Toolbar
