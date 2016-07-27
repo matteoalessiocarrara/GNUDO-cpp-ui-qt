@@ -247,9 +247,13 @@ MainWindow::refreshTableContent()
         if ((not showCompletedTask) and (task->isCompleted()))
             continue;
 
+		// TODO Cambiare colore font, a seconda dello sfondo
         ui->tableWidget->setRowCount(++tableRows);
 
-		ui->tableWidget->setItem(tableRows - 1, 0, new QTableWidgetItem(QString( (task->getPriorityLevel()->getName() + " (" + to_string(task->getPriorityLevel()->getLevel()) + ")" ).c_str() )));
+		QTableWidgetItem *priorityCell = new QTableWidgetItem(QString( (task->getPriorityLevel()->getName() + " (" + to_string(task->getPriorityLevel()->getLevel()) + ")" ).c_str() ));
+		priorityCell->setBackground(QBrush(QColor(QString(task->getPriorityLevel()->getColor().c_str()))));
+
+		ui->tableWidget->setItem(tableRows - 1, 0, priorityCell);
 		ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QString(task->getTitle().c_str())));
 		ui->tableWidget->setItem(tableRows - 1, 2, new QTableWidgetItem(QDateTime::fromTime_t(task->getCreationTime()).toString()));
 		ui->tableWidget->setItem(tableRows - 1, 3, new QTableWidgetItem(QDateTime::fromTime_t(task->getModificationTime()).toString()));
