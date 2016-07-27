@@ -14,6 +14,7 @@
 # include <QDir>
 # include <QHeaderView>
 # include <stdexcept>
+# include <iostream>
 
 using namespace gnudo::sqlite;
 
@@ -251,7 +252,9 @@ MainWindow::refreshTableContent()
         ui->tableWidget->setRowCount(++tableRows);
 
 		QTableWidgetItem *priorityCell = new QTableWidgetItem(QString( (task->getPriorityLevel()->getName() + " (" + to_string(task->getPriorityLevel()->getLevel()) + ")" ).c_str() ));
-		priorityCell->setBackground(QBrush(QColor(QString(task->getPriorityLevel()->getColor().c_str()))));
+		QColor bgcolor = QColor(QString(task->getPriorityLevel()->getColor().c_str()));
+		priorityCell->setBackground(QBrush(bgcolor));
+		priorityCell->setTextColor(((bgcolor.rgb() & 0xFFFFFF) > (0xFFFFFF/2))? Qt::black : Qt::white);
 
 		ui->tableWidget->setItem(tableRows - 1, 0, priorityCell);
 		ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QString(task->getTitle().c_str())));
