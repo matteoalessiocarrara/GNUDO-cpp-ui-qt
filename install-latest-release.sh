@@ -57,7 +57,9 @@ cd ..
 wget $UI_URL -O ui-$UI_VERSION.zip
 unzip ui-$UI_VERSION.zip
 cd GNUDO-cpp-ui-qt-$UI_VERSION
-qmake gnudo-cpp-ui-qt
+mkdir build
+cd build
+qmake ../gnudo-cpp-ui-qt
 make
 sudo cp gnudo-cpp-ui-qt /usr/local/bin
 
