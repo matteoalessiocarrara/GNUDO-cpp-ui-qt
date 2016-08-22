@@ -124,6 +124,7 @@ MainWindow::__showNewDbDialog()
 
 	if (fileName != "")
 	{
+		// TODO Gestire se esiste già
 		__db = new Db(fileName.toStdString().c_str());
 		__refreshTableContent();
 	}

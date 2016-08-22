@@ -108,6 +108,7 @@ PriorityLevelsDialog::on_pushButton_3_clicked()
 }
 
 
+// TODO Se sono selezionati tutti e non ci sono task, non chiedere di spostare
 void
 PriorityLevelsDialog::on_pushButton_2_clicked()
 {

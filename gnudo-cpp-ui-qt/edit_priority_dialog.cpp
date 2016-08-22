@@ -76,6 +76,15 @@ EditPriorityDialog::__commonInit()
 	__ui->lineEdit->setText(QString(__name.c_str()));
 	__ui->lineEdit_2->setText(QString(__color.c_str()));
 	__ui->spinBox->setValue(__level);
+
+
+	if (not __isNewPriority)
+	{
+		// Non si può modificare il livello di priorità, una volta creata
+		__ui->spinBox->hide();
+		__ui->label_3->hide();
+	}
+
 }
 
 
