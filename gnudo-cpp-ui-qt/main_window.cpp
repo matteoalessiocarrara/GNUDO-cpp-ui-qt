@@ -20,6 +20,7 @@
 # include <stdexcept>
 # include <iostream>
 # include <cstdint>
+# include <utility>
 # include <vector>
 # include <string>
 
@@ -40,12 +41,14 @@
 using namespace gnudo::managers;
 using namespace gnudo;
 
+using std::pair;
 using std::vector;
+using std::string;
 using std::int64_t;
 using std::to_string;
 
 
-// FIXME L'ordinamento per data di creazione non funziona
+// FIXME L'ordinamento per data non funziona
 // TODO Installazione
 // TODO Ridurre a icona nella barra delle notifiche
 // TODO Toolbar
@@ -60,16 +63,19 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), __ui(new Ui::MainW
 	__db = NULL;
 	__showCompletedTask = false;
 
+	__columnComboboxOptions.insert(__columnComboboxOptions.end(), pair<string, string>("Titolo", dbdefs::columns::task::title));
+	__columnComboboxOptions.insert(__columnComboboxOptions.end(), pair<string, string>("Descrizione", dbdefs::columns::task::description));
+	__columnComboboxOptions.insert(__columnComboboxOptions.end(), pair<string, string>("Data di creazione", dbdefs::columns::task::creationTime));
+	__columnComboboxOptions.insert(__columnComboboxOptions.end(), pair<string, string>("Data di modifica", dbdefs::columns::task::modificationTime));
+	__columnComboboxOptions.insert(__columnComboboxOptions.end(), pair<string, string>("Priorità", dbdefs::columns::task::priority));
+	__columnComboboxOptions.insert(__columnComboboxOptions.end(), pair<string, string>("Completato", dbdefs::columns::task::completed));
 
-	__ui->columnComboBox->insertItem(ColumnCombobox::TITLE, "Titolo");
-	__ui->columnComboBox->insertItem(ColumnCombobox::DESCRIPTION, "Descrizione");
-	__ui->columnComboBox->insertItem(ColumnCombobox::CREATION_TIME, "Data di creazione");
-	__ui->columnComboBox->insertItem(ColumnCombobox::MODIFICATION_TIME, "Data di modifica");
-	__ui->columnComboBox->insertItem(ColumnCombobox::PRIORITY, "Priorità");
-	__ui->columnComboBox->insertItem(ColumnCombobox::COMPLETED, "Completato");
 
-	__ui->ruleComboBox->insertItem(RuleCombobox::ASCENDING, "Crescente");
-	__ui->ruleComboBox->insertItem(RuleCombobox::DESCENDING, "Decrescente");
+	for(unsigned i = 0; i < __columnComboboxOptions.size(); i++)
+		__ui->columnComboBox->insertItem(i, QString(__columnComboboxOptions[i].first.c_str()));
+
+	__ui->ruleComboBox->insertItem(0, "Crescente");
+	__ui->ruleComboBox->insertItem(1, "Decrescente");
 
 
 	connect(__ui->columnComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(__onOrderByColumnChanged(int)));
@@ -82,8 +88,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), __ui(new Ui::MainW
 	connect(__ui->actionRemove_task, SIGNAL(triggered()), this, SLOT(__removeTask()));
 	connect(__ui->actionEdit_priority_levels, SIGNAL(triggered(bool)), this, SLOT(__showPriorityLevelsDialog()));
 
-	__ui->columnComboBox->setCurrentIndex(ColumnCombobox::PRIORITY);
-	__ui->ruleComboBox->setCurrentIndex(RuleCombobox::DESCENDING);
+	__ui->columnComboBox->setCurrentIndex(4);
+	__ui->ruleComboBox->setCurrentIndex(1);
 
 	// TODO Migliorare, l'utente adesso non può modificare la larghezza
 	__ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
@@ -140,30 +146,7 @@ MainWindow::__showOpenDbDialog()
 void
 MainWindow::__onOrderByColumnChanged(int selection)
 {
-    switch(selection)
-    {
-        case ColumnCombobox::TITLE:
-			__orderByColumn = dbdefs::columns::task::title;
-            break;
-        case ColumnCombobox::DESCRIPTION:
-			__orderByColumn = dbdefs::columns::task::description;
-            break;
-        case ColumnCombobox::CREATION_TIME:
-			__orderByColumn = dbdefs::columns::task::creationTime;
-            break;
-        case ColumnCombobox::MODIFICATION_TIME:
-			__orderByColumn = dbdefs::columns::task::modificationTime;
-            break;
-		case ColumnCombobox::PRIORITY:
-			__orderByColumn = dbdefs::columns::task::priority;
-			break;
-        case ColumnCombobox::COMPLETED:
-			__orderByColumn = dbdefs::columns::task::completed;
-            break;
-        default:
-            throw std::runtime_error("Selezionato ordinamento per colonna non prevista");
-    }
-
+	__orderByColumn = __columnComboboxOptions[selection].second;
 	if (__db != NULL) __refreshTableContent();
 }
 
@@ -171,7 +154,7 @@ MainWindow::__onOrderByColumnChanged(int selection)
 void
 MainWindow::__onOrderRuleChanged(int rule)
 {
-	__orderAscending = (rule == RuleCombobox::ASCENDING? true : false);
+	__orderAscending = (rule == 0? true : false);
 	if (__db != NULL) __refreshTableContent();
 }
 

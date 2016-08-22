@@ -21,6 +21,8 @@
 # define MAIN_WINDOW_H
 
 # include <cstdint>
+# include <utility>
+# include <string>
 # include <vector>
 
 # include <QMainWindow>
@@ -33,6 +35,8 @@ using namespace gnudo;
 
 using std::int64_t;
 using std::vector;
+using std::string;
+using std::pair;
 
 
 // TODO Usare nomi più significativi per gli elementi della gui (in tutto il progetto)
@@ -82,21 +86,7 @@ class MainWindow: public QMainWindow
 
 		// Il valore è l'indice della combobox
 
-		enum ColumnCombobox
-		{
-			PRIORITY = 0,
-			MODIFICATION_TIME = 1,
-			CREATION_TIME = 2,
-			TITLE = 3,
-			COMPLETED = 4,
-			DESCRIPTION = 5
-		};
-
-		enum RuleCombobox
-		{
-			ASCENDING = 0,
-			DESCENDING = 1
-		};
+		vector<pair<string, string>> __columnComboboxOptions;
 };
 
 
