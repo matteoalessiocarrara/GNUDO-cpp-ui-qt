@@ -269,8 +269,8 @@ MainWindow::__refreshTableContent()
 
 		__ui->tableWidget->setItem(tableRows - 1, 0, priorityCell);
 		__ui->tableWidget->setItem(tableRows - 1, 1, new QTableWidgetItem(QString(task.getTitle().c_str())));
-		__ui->tableWidget->setItem(tableRows - 1, 2, new QTableWidgetItem(QDateTime::fromTime_t(task.getCreationTime()).toString( QString("d/M/yyyy h:m:s"))));
-		__ui->tableWidget->setItem(tableRows - 1, 3, new QTableWidgetItem(QDateTime::fromTime_t(task.getModificationTime()).toString( QString("d/M/yyyy h:m:s"))));
+		__ui->tableWidget->setItem(tableRows - 1, 2, new QTableWidgetItem(QDateTime::fromTime_t(task.getCreationTime()).toString( QString("d/M/yyyy hh:mm:ss"))));
+		__ui->tableWidget->setItem(tableRows - 1, 3, new QTableWidgetItem(QDateTime::fromTime_t(task.getModificationTime()).toString( QString("d/M/yyyy hh:mm:ss"))));
 
 
 		__tableIdAssociation.insert(__tableIdAssociation.end(), task.Object<TasksManager>::getId());
