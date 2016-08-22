@@ -18,62 +18,50 @@
 #  MA 02110-1301, USA.
 #
 
+set -e -u
+
+SQLITE3PP_VERSION="0.1"
+BACKEND_VERSION="0.1"
+UI_VERSION="0.3"
+
+SQLITE3PP_URL=https://github.com/matteoalessiocarrara/sqlite3pp/archive/$SQLITE3PP_VERSION.zip
+BACKEND_URL=https://github.com/matteoalessiocarrara/GNUDO-backend/archive/$BACKEND_VERSION.zip
+UI_URL=https://github.com/matteoalessiocarrara/GNUDO-cpp-ui-qt/archive/$UI_VERSION.zip
+
 
 mkdir /tmp/gnudo
 cd /tmp/gnudo
 
 
 # Sqlite3pp
-sqlite3pp_version=00708e116d481e463532bc03bddf80a19c812e06
-wget https://github.com/matteoalessiocarrara/sqlite3pp/archive/$sqlite3pp_version.zip
-unzip $sqlite3pp_version.zip
-cd sqlite3pp-$sqlite3pp_version
-mkdir build
-cd build
-cmake ..
+wget $SQLITE3PP_URL -O sqlite3pp-$SQLITE3PP_VERSION.zip
+unzip sqlite3pp-$SQLITE3PP_VERSION.zip
+cd sqlite3pp-$SQLITE3PP_VERSION
+cmake .
 make
 sudo make install
-cd ../..
+cd ..
 
 
-# Abstract driver
-abstract_version=alpha2
-wget https://github.com/matteoalessiocarrara/GNUDO-cpp-dbdriver-abstract/archive/$abstract_version.zip -O abstract.zip
-unzip abstract.zip
-cd GNUDO-cpp-dbdriver-abstract-$abstract_version
-mkdir build
-cd build
-cmake ..
+# Backend
+wget $BACKEND_URL -O backend-$BACKEND_VERSION.zip
+unzip backend-$BACKEND_VERSION.zip
+cd GNUDO-backend-$BACKEND_VERSION
+cmake .
 make
 sudo make install
-cd ../..
-
-
-# Sqlite driver
-sqlite_driver_version=alpha2
-wget https://github.com/matteoalessiocarrara/GNUDO-cpp-dbdriver-sqlite/archive/$sqlite_driver_version.zip -O sqlite.zip
-unzip sqlite.zip
-cd GNUDO-cpp-dbdriver-sqlite-$sqlite_driver_version
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
-cd ../..
+cd ..
 
 
 # Qt gui
-gui_version=alpha2
-wget https://github.com/matteoalessiocarrara/GNUDO-cpp-ui-qt/archive/$gui_version.zip -O qt-gui.zip
-unzip qt-gui.zip
-cd GNUDO-cpp-ui-qt-$gui_version
-mkdir build
-cd build
-qmake ../gnudo-cpp-ui-qt
+wget $UI_URL -O ui-$UI_VERSION.zip
+unzip ui-$UI_VERSION.zip
+cd GNUDO-cpp-ui-qt-$UI_VERSION
+qmake gnudo-cpp-ui-qt
 make
 sudo cp gnudo-cpp-ui-qt /usr/local/bin
 
-rm -rf /tmp/gnudo
 
+rm -rf /tmp/gnudo
 echo "\n\n\nInstallazione completata! Adesso dovresti poter eseguire gnudo con il comando gnudo-cpp-ui-qt"
 
