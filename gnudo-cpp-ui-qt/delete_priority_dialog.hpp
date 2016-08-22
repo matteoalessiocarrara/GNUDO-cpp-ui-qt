@@ -17,16 +17,37 @@
  * MA 02110-1301, USA.
  */
 
-# include <QApplication>
-# include "main_window.hpp"
+# ifndef DELETE_PRIORITY_DIALOG_HPP
+# define DELETE_PRIORITY_DIALOG_HPP
+
+# include <QDialog>
+# include <gnudo-backend/gnudo.hpp>
 
 
-int main(int argc, char **argv)
+using namespace gnudo;
+
+
+namespace Ui
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-
-	w.show();
-
-    return a.exec();
+	class DeletePriorityDialog;
 }
+
+
+class DeletePriorityDialog: public QDialog
+{
+	Q_OBJECT
+
+	public:
+		explicit DeletePriorityDialog(QWidget *parent, Db *__db, int64_t __id);
+		~DeletePriorityDialog();
+
+	private slots:
+		void __on_buttonBox_accepted();
+
+	private:
+		Ui::DeletePriorityDialog *__ui;
+		Db *__db;
+		int64_t __id;
+};
+
+# endif // DELETE_PRIORITY_DIALOG_HPP

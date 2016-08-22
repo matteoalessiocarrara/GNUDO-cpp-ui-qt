@@ -17,16 +17,43 @@
  * MA 02110-1301, USA.
  */
 
-# include <QApplication>
-# include "main_window.hpp"
+# ifndef PRIORITY_LEVEL_SDIALOG_HPP
+# define PRIORITY_LEVEL_SDIALOG_HPP
+
+# include <QDialog>
+# include <gnudo-backend/gnudo.hpp>
 
 
-int main(int argc, char **argv)
+using namespace gnudo;
+
+
+namespace Ui
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-
-	w.show();
-
-    return a.exec();
+	class PriorityLevelsDialog;
 }
+
+
+class PriorityLevelsDialog: public QDialog
+{
+	Q_OBJECT
+
+	public:
+		explicit PriorityLevelsDialog(QWidget *parent, Db *__db);
+		~PriorityLevelsDialog();
+
+	private slots:
+		// XXX Usare nomi più significativi
+		void __on_pushButton_clicked();
+		void __on_pushButton_3_clicked();
+		void __on_pushButton_2_clicked();
+		void __refreshTableContent();
+		void __on_tableWidget_doubleClicked(const QModelIndex &index);
+
+	private:
+		vector<int64_t> __tableIdAssociation;
+		Ui::PriorityLevelsDialog *__ui;
+		Db *__db;
+};
+
+
+# endif // PRIORITY_LEVEL_SDIALOG_HPP
