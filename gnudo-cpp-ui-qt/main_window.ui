@@ -25,10 +25,10 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox"/>
+       <widget class="QComboBox" name="columnComboBox"/>
       </item>
       <item>
-       <widget class="QComboBox" name="comboBox_2"/>
+       <widget class="QComboBox" name="ruleComboBox"/>
       </item>
      </layout>
     </item>
