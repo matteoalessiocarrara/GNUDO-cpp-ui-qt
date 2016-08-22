@@ -60,7 +60,7 @@ DeletePriorityDialog::~DeletePriorityDialog()
 }
 
 
-void DeletePriorityDialog::__on_buttonBox_accepted()
+void DeletePriorityDialog::on_buttonBox_accepted()
 {
 	int64_t moveTo = __db->getPriorityLevels()->getIdList(dbdefs::columns::prioritylevel::priority)[__ui->comboBox->currentIndex()];
 	__db->getPriorityLevels()->remove(__id, moveTo);

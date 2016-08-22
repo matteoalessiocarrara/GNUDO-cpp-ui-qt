@@ -81,7 +81,7 @@ PriorityLevelsDialog::__refreshTableContent()
 
 
 void
-PriorityLevelsDialog::__on_pushButton_clicked()
+PriorityLevelsDialog::on_pushButton_clicked()
 {
 	EditPriorityDialog e(0, __db);
 	e.exec();
@@ -90,7 +90,7 @@ PriorityLevelsDialog::__on_pushButton_clicked()
 
 
 void
-PriorityLevelsDialog::__on_pushButton_3_clicked()
+PriorityLevelsDialog::on_pushButton_3_clicked()
 {
 	QModelIndexList indexes = __ui->tableWidget->selectionModel()->selection().indexes();
 
@@ -109,7 +109,7 @@ PriorityLevelsDialog::__on_pushButton_3_clicked()
 
 
 void
-PriorityLevelsDialog::__on_pushButton_2_clicked()
+PriorityLevelsDialog::on_pushButton_2_clicked()
 {
 	QModelIndexList indexes = __ui->tableWidget->selectionModel()->selectedRows();
 
@@ -146,7 +146,7 @@ PriorityLevelsDialog::__on_pushButton_2_clicked()
 
 
 void
-PriorityLevelsDialog::__on_tableWidget_doubleClicked(const QModelIndex &index)
+PriorityLevelsDialog::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
 	EditPriorityDialog e(0, __db, __tableIdAssociation[index.row()]);
 	e.exec();

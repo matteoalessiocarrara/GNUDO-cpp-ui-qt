@@ -54,9 +54,9 @@ class TaskInfoDialog: public QDialog
 		~TaskInfoDialog();
 
 	private slots:
-		void __on_buttonBox_accepted();
-		void __on_buttonBox_rejected();
-		void __on_toolButton_clicked();
+		void on_buttonBox_accepted();
+		void on_buttonBox_rejected();
+		void on_toolButton_clicked();
 
 	private:
 		Ui::TaskInfoDialog *__ui;

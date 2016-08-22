@@ -53,7 +53,7 @@ class MainWindow: public QMainWindow
 		~MainWindow();
 
 	private slots:
-		void __on_tableWidget_doubleClicked(const QModelIndex &index);
+		void on_tableWidget_doubleClicked(const QModelIndex &index);
 		void __onOrderByColumnChanged(int selection);
 		void __onOrderRuleChanged(int rule);
 

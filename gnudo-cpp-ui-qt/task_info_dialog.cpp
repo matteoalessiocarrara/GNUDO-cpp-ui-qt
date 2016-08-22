@@ -83,7 +83,7 @@ TaskInfoDialog::~TaskInfoDialog()
 
 
 void
-TaskInfoDialog::__on_buttonBox_accepted()
+TaskInfoDialog::on_buttonBox_accepted()
 {
 	Task t = __db->getTasks()->getTask(__taskId);
 
@@ -102,14 +102,14 @@ TaskInfoDialog::__on_buttonBox_accepted()
 
 
 void
-TaskInfoDialog::__on_buttonBox_rejected()
+TaskInfoDialog::on_buttonBox_rejected()
 {
 	if (__isNewTask) __db->getTasks()->remove(__taskId);
 }
 
 
 void
-TaskInfoDialog::__on_toolButton_clicked()
+TaskInfoDialog::on_toolButton_clicked()
 {
 	PriorityLevelsDialog pd(0, __db);
 	pd.exec();

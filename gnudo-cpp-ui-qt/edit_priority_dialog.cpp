@@ -85,7 +85,7 @@ EditPriorityDialog::~EditPriorityDialog()
 }
 
 
-void EditPriorityDialog::__on_buttonBox_accepted()
+void EditPriorityDialog::on_buttonBox_accepted()
 {
 	PriorityLevel p = __db->getPriorityLevels()->getPriorityLevel(__prId);
 
@@ -96,7 +96,7 @@ void EditPriorityDialog::__on_buttonBox_accepted()
 }
 
 
-void EditPriorityDialog::__on_buttonBox_rejected()
+void EditPriorityDialog::on_buttonBox_rejected()
 {
 	if (__isNewPriority)
 		__db->getPriorityLevels()->sqlite3pp::objects::Table::remove(__prId);

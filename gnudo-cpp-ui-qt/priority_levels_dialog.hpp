@@ -43,11 +43,11 @@ class PriorityLevelsDialog: public QDialog
 
 	private slots:
 		// XXX Usare nomi più significativi
-		void __on_pushButton_clicked();
-		void __on_pushButton_3_clicked();
-		void __on_pushButton_2_clicked();
+		void on_pushButton_clicked();
+		void on_pushButton_3_clicked();
+		void on_pushButton_2_clicked();
 		void __refreshTableContent();
-		void __on_tableWidget_doubleClicked(const QModelIndex &index);
+		void on_tableWidget_doubleClicked(const QModelIndex &index);
 
 	private:
 		vector<int64_t> __tableIdAssociation;

@@ -43,8 +43,8 @@ class EditPriorityDialog: public QDialog
 		~EditPriorityDialog();
 
 	private slots:
-		void __on_buttonBox_accepted();
-		void __on_buttonBox_rejected();
+		void on_buttonBox_accepted();
+		void on_buttonBox_rejected();
 
 	private:
 		Ui::EditPriorityDialog *__ui;

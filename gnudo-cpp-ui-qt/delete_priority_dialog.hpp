@@ -42,7 +42,7 @@ class DeletePriorityDialog: public QDialog
 		~DeletePriorityDialog();
 
 	private slots:
-		void __on_buttonBox_accepted();
+		void on_buttonBox_accepted();
 
 	private:
 		Ui::DeletePriorityDialog *__ui;

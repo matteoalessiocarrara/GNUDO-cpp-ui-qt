@@ -72,8 +72,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), __ui(new Ui::MainW
 	__ui->ruleComboBox->insertItem(RuleCombobox::DESCENDING, "Decrescente");
 
 
-	connect(__ui->columnComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(__onOrderByColumnChanged(int)));
-	connect(__ui->ruleComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(__onOrderRuleChanged(int)));
+	connect(__ui->columnComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onOrderByColumnChanged(int)));
+	connect(__ui->ruleComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onOrderRuleChanged(int)));
 
 	connect(__ui->actionNew, SIGNAL(triggered(bool)), this, SLOT(__showNewDbDialog()));
 	connect(__ui->actionOpen, SIGNAL(triggered()), this, SLOT(__showOpenDbDialog()));
@@ -286,7 +286,7 @@ MainWindow::~MainWindow()
 
 
 void
-MainWindow::__on_tableWidget_doubleClicked(const QModelIndex &index)
+MainWindow::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
     if (not __requireOpenDb()) return;
 
