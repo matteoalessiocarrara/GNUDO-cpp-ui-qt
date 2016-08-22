@@ -21,7 +21,7 @@
 set -e -u
 
 SQLITE3PP_VERSION="0.1"
-BACKEND_VERSION="0.1"
+BACKEND_VERSION="0.1.1"
 UI_VERSION="0.3"
 
 SQLITE3PP_URL=https://github.com/matteoalessiocarrara/sqlite3pp/archive/$SQLITE3PP_VERSION.zip
