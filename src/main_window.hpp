@@ -27,7 +27,7 @@
 
 # include <QMainWindow>
 # include <QModelIndex>
-# include <gnudo-backend/gnudo.hpp>
+# include "../lib/gnudo-backend/src/gnudo.hpp"
 
 
 using namespace gnudo::managers;
