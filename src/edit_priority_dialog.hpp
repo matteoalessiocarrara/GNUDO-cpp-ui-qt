@@ -17,11 +17,11 @@
  * MA 02110-1301, USA.
  */
 
-# ifndef DELETE_PRIORITY_DIALOG_HPP
-# define DELETE_PRIORITY_DIALOG_HPP
+# ifndef EDIT_PRIORITY_DIALOG_HPP
+# define EDIT_PRIORITY_DIALOG_HPP
 
 # include <QDialog>
-# include <gnudo-backend/gnudo.hpp>
+# include "../lib/gnudo-backend/src/gnudo.hpp"
 
 
 using namespace gnudo;
@@ -29,25 +29,35 @@ using namespace gnudo;
 
 namespace Ui
 {
-	class DeletePriorityDialog;
+	class EditPriorityDialog;
 }
 
 
-class DeletePriorityDialog: public QDialog
+class EditPriorityDialog: public QDialog
 {
 	Q_OBJECT
 
 	public:
-		explicit DeletePriorityDialog(QWidget *parent, Db *__db, int64_t __id);
-		~DeletePriorityDialog();
+		explicit EditPriorityDialog(QWidget *parent, Db *__db);
+		explicit EditPriorityDialog(QWidget *parent, Db *__db, int64_t id);
+		~EditPriorityDialog();
 
 	private slots:
 		void on_buttonBox_accepted();
+		void on_buttonBox_rejected();
 
 	private:
-		Ui::DeletePriorityDialog *__ui;
+		Ui::EditPriorityDialog *__ui;
 		Db *__db;
-		int64_t __id;
+		int64_t __prId;
+		bool __isNewPriority;
+
+		// Cache
+		string __name, __color;
+		int __level;
+
+		void __commonInit();
 };
 
-# endif // DELETE_PRIORITY_DIALOG_HPP
+
+# endif // EDIT_PRIORITY_DIALOG_HPP

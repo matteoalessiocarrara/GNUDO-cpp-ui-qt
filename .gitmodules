@@ -1,0 +1,3 @@
+[submodule "lib/gnudo-backend"]
+	path = lib/gnudo-backend
+	url = ../GNUDO-backend

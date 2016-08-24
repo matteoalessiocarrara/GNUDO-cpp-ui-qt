@@ -17,62 +17,43 @@
  * MA 02110-1301, USA.
  */
 
-# ifndef TASKINFODIALOG_H
-# define TASKINFODIALOG_H
-
-# include <string>
-# include <ctime>
+# ifndef PRIORITY_LEVEL_SDIALOG_HPP
+# define PRIORITY_LEVEL_SDIALOG_HPP
 
 # include <QDialog>
-# include <QDateTime>
-# include <gnudo-backend/gnudo.hpp>
+# include "../lib/gnudo-backend/src/gnudo.hpp"
 
 
 using namespace gnudo;
-using std::string;
 
 
 namespace Ui
 {
-	class TaskInfoDialog;
+	class PriorityLevelsDialog;
 }
 
 
-using std::time;
-using std::time_t;
-
-
-class TaskInfoDialog: public QDialog
+class PriorityLevelsDialog: public QDialog
 {
 	Q_OBJECT
 
 	public:
-		// WARNING Ci deve essere almeno un livello di priorità prima di chiamare questi costruttori
-
-		explicit TaskInfoDialog(QWidget *parent, Db *db);
-		explicit TaskInfoDialog(QWidget *parent, Db *db, int64_t taskId);
-		~TaskInfoDialog();
+		explicit PriorityLevelsDialog(QWidget *parent, Db *__db);
+		~PriorityLevelsDialog();
 
 	private slots:
-		void on_buttonBox_accepted();
-		void on_buttonBox_rejected();
-		void on_toolButton_clicked();
+		// XXX Usare nomi più significativi
+		void on_pushButton_clicked();
+		void on_pushButton_3_clicked();
+		void on_pushButton_2_clicked();
+		void __refreshTableContent();
+		void on_tableWidget_doubleClicked(const QModelIndex &index);
 
 	private:
-		Ui::TaskInfoDialog *__ui;
+		vector<int64_t> __tableIdAssociation;
+		Ui::PriorityLevelsDialog *__ui;
 		Db *__db;
-		int64_t __taskId;
-		bool __isNewTask;
-
-		// Cache
-		string __title, __description;
-		QDateTime __qcreationTime, __qmodificationTime;
-		bool __completed;
-		int64_t __priority;
-
-		void __commonInit();
-		void __updatePriorityLevelsList();
 };
 
 
-# endif // TASKINFODIALOG_H
+# endif // PRIORITY_LEVEL_SDIALOG_HPP

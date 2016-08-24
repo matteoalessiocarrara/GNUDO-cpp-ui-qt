@@ -17,47 +17,62 @@
  * MA 02110-1301, USA.
  */
 
-# ifndef EDIT_PRIORITY_DIALOG_HPP
-# define EDIT_PRIORITY_DIALOG_HPP
+# ifndef TASKINFODIALOG_H
+# define TASKINFODIALOG_H
+
+# include <string>
+# include <ctime>
 
 # include <QDialog>
-# include <gnudo-backend/gnudo.hpp>
+# include <QDateTime>
+# include "../lib/gnudo-backend/src/gnudo.hpp"
 
 
 using namespace gnudo;
+using std::string;
 
 
 namespace Ui
 {
-	class EditPriorityDialog;
+	class TaskInfoDialog;
 }
 
 
-class EditPriorityDialog: public QDialog
+using std::time;
+using std::time_t;
+
+
+class TaskInfoDialog: public QDialog
 {
 	Q_OBJECT
 
 	public:
-		explicit EditPriorityDialog(QWidget *parent, Db *__db);
-		explicit EditPriorityDialog(QWidget *parent, Db *__db, int64_t id);
-		~EditPriorityDialog();
+		// WARNING Ci deve essere almeno un livello di priorità prima di chiamare questi costruttori
+
+		explicit TaskInfoDialog(QWidget *parent, Db *db);
+		explicit TaskInfoDialog(QWidget *parent, Db *db, int64_t taskId);
+		~TaskInfoDialog();
 
 	private slots:
 		void on_buttonBox_accepted();
 		void on_buttonBox_rejected();
+		void on_toolButton_clicked();
 
 	private:
-		Ui::EditPriorityDialog *__ui;
+		Ui::TaskInfoDialog *__ui;
 		Db *__db;
-		int64_t __prId;
-		bool __isNewPriority;
+		int64_t __taskId;
+		bool __isNewTask;
 
 		// Cache
-		string __name, __color;
-		int __level;
+		string __title, __description;
+		QDateTime __qcreationTime, __qmodificationTime;
+		bool __completed;
+		int64_t __priority;
 
 		void __commonInit();
+		void __updatePriorityLevelsList();
 };
 
 
-# endif // EDIT_PRIORITY_DIALOG_HPP
+# endif // TASKINFODIALOG_H
