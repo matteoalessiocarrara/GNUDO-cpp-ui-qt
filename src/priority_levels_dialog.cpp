@@ -33,6 +33,7 @@ using namespace gnudo;
 using std::to_string;
 
 
+// XXX I pulsanti "Ok" e "Cancel" non hanno effetto
 // TODO Aggiungere barra dei menu
 // TODO Modificare direttamente dalla tabella
 // TODO Aggiungere ordinamento tabella
