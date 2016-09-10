@@ -11,6 +11,13 @@ cd nome_di_questo_repo
 git submodule update --init --recursive
 ```
 
+## Compilazione
+
+```bash
+mkdir build && cd build
+qmake .. -r && make
+```
+
 ## Aggiornamenti
 
 È possibile iscriversi al canale [telegram](https://telegram.me/matteoalessiocarrara) 
