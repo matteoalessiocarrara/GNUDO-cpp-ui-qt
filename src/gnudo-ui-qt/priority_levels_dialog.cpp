@@ -20,8 +20,8 @@
 # include <string>
 
 # include <QMessageBox>
-# include "../lib/gnudo-backend/src/gnudo.hpp"
-# include "../lib/gnudo-backend/src/dbdefs.hpp"
+# include "../gnudo-backend/src/gnudo.hpp"
+# include "../gnudo-backend/src/dbdefs.hpp"
 
 # include "edit_priority_dialog.hpp"
 # include "ui_priority_levels_dialog.h"

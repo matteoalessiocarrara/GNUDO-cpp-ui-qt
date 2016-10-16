@@ -17,11 +17,11 @@
  * MA 02110-1301, USA.
  */
 
-# ifndef PRIORITY_LEVEL_SDIALOG_HPP
-# define PRIORITY_LEVEL_SDIALOG_HPP
+# ifndef DELETE_PRIORITY_DIALOG_HPP
+# define DELETE_PRIORITY_DIALOG_HPP
 
 # include <QDialog>
-# include "../lib/gnudo-backend/src/gnudo.hpp"
+# include "../gnudo-backend/src/gnudo.hpp"
 
 
 using namespace gnudo;
@@ -29,31 +29,25 @@ using namespace gnudo;
 
 namespace Ui
 {
-	class PriorityLevelsDialog;
+	class DeletePriorityDialog;
 }
 
 
-class PriorityLevelsDialog: public QDialog
+class DeletePriorityDialog: public QDialog
 {
 	Q_OBJECT
 
 	public:
-		explicit PriorityLevelsDialog(QWidget *parent, Db *__db);
-		~PriorityLevelsDialog();
+		explicit DeletePriorityDialog(QWidget *parent, Db *__db, int64_t __id);
+		~DeletePriorityDialog();
 
 	private slots:
-		// XXX Usare nomi più significativi
-		void on_pushButton_clicked();
-		void on_pushButton_3_clicked();
-		void on_pushButton_2_clicked();
-		void __refreshTableContent();
-		void on_tableWidget_doubleClicked(const QModelIndex &index);
+		void on_buttonBox_accepted();
 
 	private:
-		vector<int64_t> __tableIdAssociation;
-		Ui::PriorityLevelsDialog *__ui;
+		Ui::DeletePriorityDialog *__ui;
 		Db *__db;
+		int64_t __id;
 };
 
-
-# endif // PRIORITY_LEVEL_SDIALOG_HPP
+# endif // DELETE_PRIORITY_DIALOG_HPP

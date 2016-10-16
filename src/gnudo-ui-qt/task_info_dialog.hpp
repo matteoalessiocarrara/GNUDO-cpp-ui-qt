@@ -17,37 +17,62 @@
  * MA 02110-1301, USA.
  */
 
-# ifndef DELETE_PRIORITY_DIALOG_HPP
-# define DELETE_PRIORITY_DIALOG_HPP
+# ifndef TASKINFODIALOG_H
+# define TASKINFODIALOG_H
+
+# include <string>
+# include <ctime>
 
 # include <QDialog>
-# include "../lib/gnudo-backend/src/gnudo.hpp"
+# include <QDateTime>
+# include "../gnudo-backend/src/gnudo.hpp"
 
 
 using namespace gnudo;
+using std::string;
 
 
 namespace Ui
 {
-	class DeletePriorityDialog;
+	class TaskInfoDialog;
 }
 
 
-class DeletePriorityDialog: public QDialog
+using std::time;
+using std::time_t;
+
+
+class TaskInfoDialog: public QDialog
 {
 	Q_OBJECT
 
 	public:
-		explicit DeletePriorityDialog(QWidget *parent, Db *__db, int64_t __id);
-		~DeletePriorityDialog();
+		// WARNING Ci deve essere almeno un livello di priorità prima di chiamare questi costruttori
+
+		explicit TaskInfoDialog(QWidget *parent, Db *db);
+		explicit TaskInfoDialog(QWidget *parent, Db *db, int64_t taskId);
+		~TaskInfoDialog();
 
 	private slots:
 		void on_buttonBox_accepted();
+		void on_buttonBox_rejected();
+		void on_toolButton_clicked();
 
 	private:
-		Ui::DeletePriorityDialog *__ui;
+		Ui::TaskInfoDialog *__ui;
 		Db *__db;
-		int64_t __id;
+		int64_t __taskId;
+		bool __isNewTask;
+
+		// Cache
+		string __title, __description;
+		QDateTime __qcreationTime, __qmodificationTime;
+		bool __completed;
+		int64_t __priority;
+
+		void __commonInit();
+		void __updatePriorityLevelsList();
 };
 
-# endif // DELETE_PRIORITY_DIALOG_HPP
+
+# endif // TASKINFODIALOG_H

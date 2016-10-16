@@ -29,8 +29,8 @@
 # include <QHeaderView>
 # include <QDateTime>
 # include <QDir>
-# include "../lib/gnudo-backend/src/dbdefs.hpp"
-# include "../lib/gnudo-backend/src/gnudo.hpp"
+# include "../gnudo-backend/src/dbdefs.hpp"
+# include "../gnudo-backend/src/gnudo.hpp"
 
 # include "main_window.hpp"
 # include "ui_main_window.h"
