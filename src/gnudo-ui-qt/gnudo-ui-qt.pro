@@ -4,9 +4,9 @@ TARGET = gnudo-ui-qt
 INCLUDEPATH += .
 
 
-unix:LIBS += -L../lib/gnudo-backend/src -lbackend
-unix:LIBS += -L../lib/gnudo-backend/lib/sqlite3pp/src -lsqlite3pp
-unix:LIBS += -L../lib/gnudo-backend/lib/sqlite3pp/lib/sqlite3/ -lsqlite3
+unix:LIBS += -L../gnudo-backend/src/gnudo-backend -lbackend
+unix:LIBS += -L../gnudo-backend/src/sqlite3pp/src/sqlite3pp -lsqlite3pp
+unix:LIBS += -L../gnudo-backend/src/sqlite3pp/src/sqlite3/ -lsqlite3
 unix:LIBS += -ldl
 unix:!android:LIBS += -lpthread
 

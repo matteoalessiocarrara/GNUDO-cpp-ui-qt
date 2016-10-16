@@ -1,4 +1,2 @@
 build/
-/CMakeLists.txt.user
-build-src.sh
 gnudo-ui-qt.pro.user

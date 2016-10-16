@@ -19,8 +19,8 @@
 
 # include <vector>
 
-# include "../lib/gnudo-backend/src/dbdefs.hpp"
-# include "../lib/gnudo-backend/src/gnudo.hpp"
+# include "../gnudo-backend/src/gnudo-backend/dbdefs.hpp"
+# include "../gnudo-backend/src/gnudo-backend/gnudo.hpp"
 
 # include "delete_priority_dialog.hpp"
 # include "ui_delete_priority_dialog.h"
