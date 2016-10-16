@@ -17,7 +17,7 @@
  * MA 02110-1301, USA.
  */
 
-# include "../gnudo-backend/src/dbdefs.hpp"
+# include "../gnudo-backend/src/gnudo-backend/dbdefs.hpp"
 
 # include "edit_priority_dialog.hpp"
 # include "ui_edit_priority_dialog.h"

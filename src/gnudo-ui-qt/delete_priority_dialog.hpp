@@ -21,7 +21,7 @@
 # define DELETE_PRIORITY_DIALOG_HPP
 
 # include <QDialog>
-# include "../gnudo-backend/src/gnudo.hpp"
+# include "../gnudo-backend/src/gnudo-backend/gnudo.hpp"
 
 
 using namespace gnudo;

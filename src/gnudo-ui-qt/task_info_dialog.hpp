@@ -25,7 +25,7 @@
 
 # include <QDialog>
 # include <QDateTime>
-# include "../gnudo-backend/src/gnudo.hpp"
+# include "../gnudo-backend/src/gnudo-backend/gnudo.hpp"
 
 
 using namespace gnudo;

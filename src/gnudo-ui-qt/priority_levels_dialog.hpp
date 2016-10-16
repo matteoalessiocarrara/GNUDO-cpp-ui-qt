@@ -21,7 +21,7 @@
 # define PRIORITY_LEVEL_SDIALOG_HPP
 
 # include <QDialog>
-# include "../gnudo-backend/src/gnudo.hpp"
+# include "../gnudo-backend/src/gnudo-backend/gnudo.hpp"
 
 
 using namespace gnudo;
